@@ -1,0 +1,26 @@
+{
+  "name": "sailboat-utils",
+  "version": "1.0.0",
+  "description": "Utility functions for sailboats",
+  "scripts": {
+    "test": "node tests/testBoatUtils"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psiphi75/sailboat-utils.git"
+  },
+  "keywords": [
+    "sailboat",
+    "utility"
+  ],
+  "author": "Simon M. Werner",
+  "license": "APSL-2.0",
+  "bugs": {
+    "url": "https://github.com/psiphi75/sailboat-utils/issues"
+  },
+  "homepage": "https://github.com/psiphi75/sailboat-utils#readme",
+  "dependencies": {
+    "geographiclib": "^1.46.0",
+    "tape": "^4.6.0"
+  }
+}
