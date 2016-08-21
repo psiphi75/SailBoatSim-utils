@@ -1,2 +1,3 @@
-# SailBoatSim-utils
-Utillity functions for SailBoatSim 
+# Sailboat Utilities
+
+Utility functions for SailBoatSim 
