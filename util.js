@@ -234,7 +234,20 @@ var util = {
             if (!util.isNumeric(gps.longitude)) return false;
             if (gps.latitude === 0 && gps.longitude === 0) return false;
             return true;
+    },
+    useLastIfNecessary: function(lastValue) {
+        return {
+            check: function(currentValue) {
+                if (currentValue === null || currentValue === undefined) {
+                    return lastValue;
+                } else {
+                    lastValue = currentValue;
+                    return currentValue;
+                }
+            }
+        };
     }
+
 
 };
 
