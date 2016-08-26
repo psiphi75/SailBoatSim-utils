@@ -8,8 +8,38 @@ function WaypointManager(wpArray) {
         thisWp.number = (i + 1).toString();
         return thisWp;
     });
+
+    //
+    // Calc the average
+    //
+    this.averageWaypoint = this.waypoints.reduce(function(a, b) {
+        return {
+            latitude: a.latitude + b.latitude,
+            longitude: a.longitude + b.longitude
+        };
+    });
+    this.averageWaypoint.latitude /= this.waypoints.length;
+    this.averageWaypoint.longitude /= this.waypoints.length;
+
+    //
+    // Calc the direction of the waypoints (clockwise or anti-clockwise)
+    //
+    this.isClockwise = (function(wpList) {
+        var sumPoints = 0;
+        var wp1 = wpList[0];
+        wpList.forEach(function(wp2, i) {
+            if (i === 0) return;
+            sumPoints += (wp2.longitude - wp1.longitude) * (wp2.latitude + wp1.latitude);
+            wp1 = wp2;
+        });
+        var isClockwise = (sumPoints > 0);
+        return isClockwise;
+    }(this.waypoints));
+
     this.current = 0;
 }
+
+
 /**
  * Move to the next waypoint, in sequential order.  Mark the current waypoint as achieved.
  * @return {Position} pos The new current waypoint.
@@ -61,6 +91,17 @@ WaypointManager.prototype.getPrevious = function () {
         prev = this.waypoints.length - 1;
     }
     return this.waypoints[prev];
+};
+WaypointManager.prototype.getNext = function () {
+    var next = (this.current + 1) % this.waypoints.length;
+    return this.waypoints[next];
+};
+/**
+ * Return the average of the waypoints.  Useful to know the center of the course.
+ * @return {Waypoint}
+ */
+WaypointManager.prototype.getAverage = function () {
+    return this.averageWaypoint;
 };
 
 module.exports = WaypointManager;

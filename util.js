@@ -41,6 +41,11 @@ var util = {
             y: len * Math.sin(angle)
         };
     },
+    angleBetweenLatLongLines: function (line1, line2) {
+        var angle1 = Math.atan2(line1[0].latitude - line1[1].latitude, line1[0].longitude - line1[1].longitude);
+        var angle2 = Math.atan2(line2[0].latitude - line2[1].latitude, line2[0].longitude - line2[1].longitude);
+        return util.toDegrees(angle1 - angle2);
+    },
     wrapDegrees: function (deg) {
         while (deg > 180) {
             deg -= 360;
