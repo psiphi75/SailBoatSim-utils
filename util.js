@@ -262,8 +262,34 @@ var util = {
                 }
             }
         };
-    }
+    },
+    /**
+     *           A CSV (comma-separated values) text file with three decimal integer numbers per line
+                 representing “hhmmssdd, Lat*107, Lon*107”. For example, the entry
+                 September, lat=41.6887091º (north) and lon = -8.8259850º (west) ); 9h of recording
+                 “14233407, 416887091, -88259850” means 14h23m34s of day 7 of
+                 will need approximately 1MByte of data.
+     * @param  {[type]} gps [description]
+     * @param  {[type]} log [description]
+     * @return {[type]}     [description]
+     */
+    wrscGPSlogger: function(gps) {
+        var d = new Date(gps.time);
+        var hh = util.zeroPad(d.getHours());
+        var mm = util.zeroPad(d.getMinutes());
+        var ss = util.zeroPad(d.getSeconds());
+        var dd = util.zeroPad(d.getDate());
 
+        var lat = (gps.latitude * Math.pow(10, 7)).toFixed(0);
+        var long = (gps.longitude * Math.pow(10, 7)).toFixed(0);
+
+        return hh + mm + ss + dd + ',' + lat + ',' + long;        
+    },
+    zeroPad: function (num) {
+        if (!util.isNumeric(num)) return num;
+        if (num <= 9) return '0' + num.toString();
+        return num.toString();
+    }
 
 };
 
