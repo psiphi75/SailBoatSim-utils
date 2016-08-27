@@ -58,6 +58,17 @@ var util = {
     isNumeric: function (n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     },
+    assertNumber: function (n, lowerBound, upperBound) {
+        if (!util.isNumeric(n)) {
+            throw new Error('util.assertNumber() failed');
+        }
+        if (lowerBound && n < lowerBound) {
+            throw new Error('util.assertNumber() number is out of bounds');
+        }
+        if (upperBound && n > upperBound) {
+            throw new Error('util.assertNumber() number is out of bounds');
+        }
+    },
     /**
      * Calculate the speed in m/s and heading.  Thanks to: http://www.movable-type.co.uk/scripts/latlong.html
      * @param  {number} lat        The old latitude

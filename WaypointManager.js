@@ -36,6 +36,19 @@ function WaypointManager(wpArray) {
         return isClockwise;
     }(this.waypoints));
 
+    //
+    // Calculate for each waypoint the cummulative distance of the course
+    //
+    var prevWp = this.waypoints[0];
+    var courseDist = 0;
+    var finishWp = this.waypoints[this.waypoints.length - 1];
+    this.waypoints.forEach(function(wp) {
+        courseDist += wp.distanceHeadingTo(prevWp).distance;
+        wp.courseDist = courseDist;
+        wp.distToFinish = wp.distanceHeadingTo(finishWp).distance;
+        prevWp = wp;
+    });
+
     this.current = 0;
 }
 
@@ -92,10 +105,26 @@ WaypointManager.prototype.getPrevious = function () {
     }
     return this.waypoints[prev];
 };
-WaypointManager.prototype.getNext = function () {
+WaypointManager.prototype.peekNext = function () {
     var next = (this.current + 1) % this.waypoints.length;
     return this.waypoints[next];
 };
+/**
+ * Cycle through all the waypoints until we get to the nth waypoint.
+ * @param  {number} n
+ * @param  {Position} pos The Position
+ * @return {object}     The same as WaypointManager.next();
+ */
+WaypointManager.prototype.gotoNth = function (n, pos) {
+    if (n < 0) {
+        n = this.waypoints.length + n;
+    }
+    do {
+        this.next(pos);
+    } while (this.current < n);
+    return this.getStatus(pos);
+};
+
 /**
  * Return the average of the waypoints.  Useful to know the center of the course.
  * @return {Waypoint}

@@ -68,6 +68,8 @@ var POLAR_CHART = {
     '175': { 'speedFactor': 0.682, 'sail': 0.933 },
     '180': { 'speedFactor': 0.671, 'sail': 1 }
 };
+console.log('BOAT_PROPERTIES: t0');
+
 
 /**
  * Supplement the polar chart with VMG (velocity made good) data.
