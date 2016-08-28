@@ -65,7 +65,7 @@ Position.prototype.RE = 6371000;
 
 
 Position.prototype.distanceHeadingTo = function(pos2) {
-    if (!(pos2 instanceof Position)) return console.error('ERROR: Position.distHeadingTo(): Invalid Position');
+    if (!(pos2 instanceof Position)) pos2 = new Position(pos2);
 
     var r = geod.Inverse(this.latitude, this.longitude, pos2.latitude, pos2.longitude);
     return {
@@ -75,8 +75,8 @@ Position.prototype.distanceHeadingTo = function(pos2) {
 };
 Position.prototype.gotoHeading = function(heading, dist) {
 
-    if (!util.isNumeric(heading)) return console.error('ERROR: Position.getPosition(): heading: ', heading);
-    if (!util.isNumeric(dist)) return console.error('ERROR: Position.getPosition(): dist: ', dist);
+    if (!util.isNumeric(heading)) return console.error('ERROR: Position.gotoHeading(): heading: ', heading);
+    if (!util.isNumeric(dist)) return console.error('ERROR: Position.gotoHeading(): dist: ', dist);
 
     var r = geod.Direct(this.latitude, this.longitude, heading, dist);
     return new Position({
@@ -85,8 +85,8 @@ Position.prototype.gotoHeading = function(heading, dist) {
     });
 };
 Position.prototype.getVelocity = function(pos2, deltaTimeSec) {
-    if (!(pos2 instanceof Position)) return console.error('ERROR: Position.distHeadingTo(): Invalid Position');
-    if (!util.isNumeric(deltaTimeSec)) return console.error('ERROR: Position.getVelocity(): deltaTimeSec: ', deltaTimeSec);
+    if (!(pos2 instanceof Position)) return console.error('ERROR: Position.getVelocity(): Invalid Position');
+    if (!util.isNumeric(deltaTimeSec)) return console.error('ERROR: Position.getVelocity(): deltaTimeSec is not a number: ', deltaTimeSec);
 
     var r = this.distHeadingTo(pos2);
 

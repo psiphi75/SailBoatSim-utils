@@ -42,7 +42,7 @@ var wrc = require('web-remote-control');
 var fs = require('fs');
 var areaScan = require('./GenerateAreaScan');
 var util = require('../util');
-var StateManager = require('../StateManager');
+var StateManager = require('./StateManager');
 var state = new StateManager();
 
 /**
@@ -136,7 +136,7 @@ ContestManager.prototype.sendContest = function(contestRequest) {
             if (err2) return;
             wpStateList.forEach(function(wpState, i) {
                 if (wpState === true) {
-                    contestDetails.waypoints[i].acheived = true;
+                    contestDetails.waypoints[i].achieved = true;
                 }
             });
 

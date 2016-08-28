@@ -30,8 +30,8 @@
 //     "width": 100
 // }
 
-var Position = require('sailboat-utils/Position');
-var util = require('sailboat-utils/util');
+var Position = require('../Position');
+var util = require('../util');
 
 exports.generate = function generateAreaScan(obj) {
     util.assertNumber(obj.width);

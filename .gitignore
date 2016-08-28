@@ -1,1 +1,4 @@
 node_modules
+contests/state/[0-9]
+contests/state/[0-9][0-9]
+contests/state/[0-9][0-9][0-9]

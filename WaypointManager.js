@@ -49,7 +49,8 @@ function WaypointManager(wpArray) {
         prevWp = wp;
     });
 
-    this.current = 0;
+    // Find the first active waypoint
+    this.nextActiveWaypoint();
 }
 
 
@@ -59,9 +60,30 @@ function WaypointManager(wpArray) {
  */
 WaypointManager.prototype.next = function (pos) {
     this.waypoints[this.current].achieved = true;
-    this.current += 1;
+    this.nextActiveWaypoint();
     return this.getStatus(pos);
 };
+
+WaypointManager.prototype.nextActiveWaypoint = function () {
+    if (this.current === undefined) this.current = 0;
+    var self = this;
+
+    var length = this.waypoints.length;
+    for (var i = 0; i < length; i += 1) {
+        if (i >= self.current && this.waypoints[i].achieved !== true) {
+            break;
+        }
+    }
+    this.current = i;
+
+    // If all waypoints are achieved, then we restart the course
+    if (this.current === length) {
+        this.waypoints.forEach(function (wp) {
+            wp.achieved = false;
+        });
+    }
+};
+
 /**
  * Move to the next closed waypoint.  Mark the current waypoint as achieved.
  * @return {Position} pos The new current waypoint.
@@ -123,6 +145,17 @@ WaypointManager.prototype.gotoNth = function (n, pos) {
         this.next(pos);
     } while (this.current < n);
     return this.getStatus(pos);
+};
+
+/**
+ * Get the state of the waypoints as an array.
+ * @param  {[type]} n   [description]
+ * @param  {[type]} pos [description]
+ * @return {[type]}     [description]
+ */
+WaypointManager.prototype.getState = function () {
+    var wpsState = this.waypoints.map(function(wp) { return wp.achieved; });
+    return wpsState;
 };
 
 /**
