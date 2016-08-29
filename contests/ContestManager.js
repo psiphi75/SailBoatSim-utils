@@ -25,17 +25,17 @@
 
 const CHANNEL = 'ContestManager';
 
-const VALID_ACTIONS = ['request-contest'];
+const VALID_ACTIONS = ['request-contest', 'update-waypoint-state', 'reset-waypoint-state'];
 const VALID_CONTEST_TYPES = ['none', 'fleet-race', 'station-keeping', 'area-scanning', 'obstacle-avoidance'];
 const VALID_CONTEST_LOCATIONS = ['auckland', 'viana-do-castelo'];
 
 const DEFAULT_CONTEST_REQUEST = {
     action: 'request-contest',
-    type: 'area-scanning',
+    type: 'fleet-race',
     location: 'auckland',
     realtime: true,
     windSpeed: 0.8,
-    windHeading: 50
+    windHeading: 150
 };
 
 var wrc = require('web-remote-control');
@@ -134,9 +134,9 @@ ContestManager.prototype.sendContest = function(contestRequest) {
         //
         state.get(function (err2, wpStateList) {
             if (err2) return;
-            wpStateList.forEach(function(wpState, i) {
-                if (wpState === true) {
-                    contestDetails.waypoints[i].achieved = true;
+            contestDetails.waypoints.forEach(function(wp, i) {
+                if (wpStateList[i] === true) {
+                    wp.achieved = true;
                 }
             });
 
