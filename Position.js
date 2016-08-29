@@ -132,6 +132,25 @@ Position.prototype.calcSideOfLineByAngle = function (pos1, heading) {
     var pos2 = this.gotoHeading(heading, 10);
     return this.calcSideOfLine(pos1, pos2);
 };
+Position.prototype.crossesLine = function(myHeading, linePos1, lineHeading, distLimit) {
+    var myPosition = this;
+    // We are doing this on a sphere. So technically this is incorrect.  But an approximation is okay.
+    var myPos1 = vector2dFromLatLong(myPosition);
+    var myPos2 = vector2dFromLatLong(myPosition.gotoHeading(myHeading, distLimit));
+    var lnPos1 = vector2dFromLatLong(linePos1);
+    var lnPos2 = vector2dFromLatLong(linePos1.gotoHeading(lineHeading, distLimit * 4));
+
+    var intersection = checkLineIntersection(myPos1, myPos2, lnPos1, lnPos2);
+    if (intersection.x === null) return false;
+    return (intersection.onLineA && intersection.onLineB);
+};
+
+function vector2dFromLatLong(p) {
+    return {
+        x: p.longitude,
+        y: p.latitude
+    };
+}
 
 function norm(a) {
     return Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
@@ -151,5 +170,43 @@ function sub(a, b) {
         z: a.z - b.z
     };
 }
+
+function checkLineIntersection(pa1, pa2, pb1, pb2) {
+    // Pillaged from: http://jsfiddle.net/justin_c_rounds/Gd2S2/
+    // if the lines intersect, the result contains the x and y of the intersection (treating the lines as infinite)
+    // and booleans for whether line segment 1 or line segment 2 contain the point
+    var denominator, a, b, numerator1, numerator2;
+    var result = {
+        x: null,
+        y: null,
+        onLineA: false,
+        onLineB: false
+    };
+    denominator = ((pb2.y - pb1.y) * (pa2.x - pa1.x)) - ((pb2.x - pb1.x) * (pa2.y - pa1.y));
+    if (denominator === 0) {
+        return result;
+    }
+    a = pa1.y - pb1.y;
+    b = pa1.x - pb1.x;
+    numerator1 = ((pb2.x - pb1.x) * a) - ((pb2.y - pb1.y) * b);
+    numerator2 = ((pa2.x - pa1.x) * a) - ((pa2.y - pa1.y) * b);
+    a = numerator1 / denominator;
+    b = numerator2 / denominator;
+
+    // if we cast these lines infinitely in both directions, they intersect here:
+    result.x = pa1.x + (a * (pa2.x - pa1.x));
+    result.y = pa1.y + (a * (pa2.y - pa1.y));
+
+    // if lineA is a segment and lineB is infinite, they intersect if:
+    if (a > 0 && a < 1) {
+        result.onLineA = true;
+    }
+    // if lineB is a segment and lineA is infinite, they intersect if:
+    if (b > 0 && b < 1) {
+        result.onLineB = true;
+    }
+    // if lineA and lineB are segments, they intersect if both of the above are true
+    return result;
+};
 
 module.exports = Position;
