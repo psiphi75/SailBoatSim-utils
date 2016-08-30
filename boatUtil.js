@@ -24,6 +24,7 @@
 'use strict';
 
 var util = require('./util');
+var Position = require('./Position');
 
 var fn = {
     /**
@@ -65,11 +66,13 @@ var fn = {
         };
     },
     calcNextPosition: function(oldLat, oldLong, newSpeed, newHeading, drift, time) {
-        var tmpPos;
-        tmpPos = util.getNextLatLongFromVelocity(oldLat, oldLong, newSpeed, newHeading, time.delta);
-        tmpPos = util.getNextLatLongFromVelocity(tmpPos.latitude, tmpPos.longitude, drift.wind.speed, drift.wind.headingToNorth, time.delta);
-        tmpPos = util.getNextLatLongFromVelocity(tmpPos.latitude, tmpPos.longitude, drift.water.speed, drift.water.headingToNorth, time.delta);
-        return tmpPos;
+        var newPos;
+        newPos = util.getNextLatLongFromVelocity(oldLat, oldLong, newSpeed, newHeading, time.delta);
+        newPos = util.getNextLatLongFromVelocity(newPos.latitude, newPos.longitude, drift.wind.speed, drift.wind.headingToNorth, time.delta);
+        newPos = util.getNextLatLongFromVelocity(newPos.latitude, newPos.longitude, drift.water.speed, drift.water.headingToNorth, time.delta);
+        var velocity = util.getVelocityFromDeltaLatLong(oldLat, oldLong, newPos.latitude, newPos.longitude);
+        newPos.direction = velocity.heading;
+        return newPos;
     },
     calcVMG: function(trueWind, boatVelocity) {
         var theta = util.toRadians(trueWind.heading);

@@ -126,12 +126,12 @@ exports.generate = function generateAreaScan(obj) {
     //
     // Generate the boundary
     //
-    var len5;
-    if (isEvenCourse) {
-        len5 = courseWidth / 3;
-    } else {
-        len5 = courseWidth / 2;
-    }
+    // var len5;
+    // if (isEvenCourse) {
+    //     len5 = courseWidth / 3;
+    // } else {
+    //     len5 = courseWidth / 2;
+    // }
     var leftBoundaryExtension = sepDist * 2;
     var b1 = p1.gotoHeading(perpendicularWindHeading + 180, leftBoundaryExtension);             // Top Left
     var b2 = b1.gotoHeading(perpendicularWindHeading, courseWidth + leftBoundaryExtension);     // Top Right

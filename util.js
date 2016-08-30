@@ -137,6 +137,17 @@ var util = {
     jitter: function (val, jit) {
         return val + util.rand(-jit, jit);
     },
+    jitterLatLong: function(val) {
+        var mult = 5 / 3 * 1e7; // This is the 1/min value for GPS value.
+        var newValue = util.jitter(Math.round(val * mult), 1) / mult;
+
+        // The u-blox randomily throws out some wacky lat/long values, let's do the same .... just for fun
+        if (Math.random() < 0.01) {
+            newValue += util.rand(-673 / mult, 673 / mult);
+        }
+
+        return newValue;
+    },
 
     /**
      * Round a number to dp number of decimal points.

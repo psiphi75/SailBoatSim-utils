@@ -32,7 +32,7 @@ const VALID_CONTEST_LOCATIONS = ['auckland', 'viana-do-castelo'];
 const DEFAULT_CONTEST_REQUEST = {
     action: 'request-contest',
     type: 'area-scanning',
-    location: 'auckland',
+    location: 'viana-do-castelo',
     realtime: true,
     windSpeed: 0.8,
     windHeading: 40
