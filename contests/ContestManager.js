@@ -31,11 +31,11 @@ const VALID_CONTEST_LOCATIONS = ['auckland', 'viana-do-castelo'];
 
 const DEFAULT_CONTEST_REQUEST = {
     action: 'request-contest',
-    type: 'fleet-race',
+    type: 'area-scanning',
     location: 'auckland',
     realtime: true,
     windSpeed: 0.8,
-    windHeading: 150
+    windHeading: 40
 };
 
 var wrc = require('web-remote-control');

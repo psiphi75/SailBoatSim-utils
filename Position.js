@@ -207,6 +207,6 @@ function checkLineIntersection(pa1, pa2, pb1, pb2) {
     }
     // if lineA and lineB are segments, they intersect if both of the above are true
     return result;
-};
+}
 
 module.exports = Position;

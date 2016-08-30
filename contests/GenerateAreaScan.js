@@ -132,13 +132,14 @@ exports.generate = function generateAreaScan(obj) {
     } else {
         len5 = courseWidth / 2;
     }
-    var b1 = p1;
-    var b2 = b1.gotoHeading(perpendicularWindHeading, courseWidth);
-    var b3 = b2.gotoHeading(windHeading, courseWidth);
-    var b4 = b3.gotoHeading(perpendicularWindHeading + 180, courseWidth / 2);
-    var b5 = b4.gotoHeading(windHeading + 180, len5);
-    var b6 = b5.gotoHeading(perpendicularWindHeading + 180, courseWidth / 2);
-    var boundary = [b1, b2, b3, b4, b5, b6].map(function (b) { return createBoundaryPoint(b); });
+    var leftBoundaryExtension = sepDist * 2;
+    var b1 = p1.gotoHeading(perpendicularWindHeading + 180, leftBoundaryExtension);             // Top Left
+    var b2 = b1.gotoHeading(perpendicularWindHeading, courseWidth + leftBoundaryExtension);     // Top Right
+    var b3 = b2.gotoHeading(windHeading, courseWidth);                                          // Bottom Right
+    var b4 = b3.gotoHeading(perpendicularWindHeading + 180, courseWidth + leftBoundaryExtension);   // Bottom Left
+    // var b5 = b4.gotoHeading(windHeading + 180, len5);
+    // var b6 = b5.gotoHeading(perpendicularWindHeading + 180, courseWidth / 2);
+    var boundary = [b1, b2, b3, b4].map(function (b) { return createBoundaryPoint(b); });
 
     return {
         'type': 'area-scanning',
