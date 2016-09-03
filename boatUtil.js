@@ -24,7 +24,6 @@
 'use strict';
 
 var util = require('./util');
-var Position = require('./Position');
 
 var fn = {
     /**

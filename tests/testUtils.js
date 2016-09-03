@@ -26,7 +26,7 @@ var util = require('../util');
 
 test('WRSC GPS logging', function(t) {
 
-    t.plan(3);
+    t.plan(6);
 
     // Tue Aug 23 2016 17:28:06 GMT+1200 (NZST)
     var gps = {
@@ -39,17 +39,33 @@ test('WRSC GPS logging', function(t) {
         sameCounter: 191
     };
 
-    t.equal(util.wrscGPSlogger(gps), '172806723, -368092550, 1747503867');
+    t.equal(util.wrscGPSlogger(gps), '052806723, -368092550, 1747503867');
 
     gps.time = 1471930080700 - 28 * 60 * 1000;
-    t.equal(util.wrscGPSlogger(gps), '170000723, -368092550, 1747503867');
+    t.equal(util.wrscGPSlogger(gps), '050000723, -368092550, 1747503867');
 
     gps = {
         latitude: 41.6887091,
         longitude: -8.8259850,
         time: new Date(2016, 9, 7, 14, 23, 34, 800)
     };
-    t.equal(util.wrscGPSlogger(gps), '142334807, 416887091, -88259850');
+    t.equal(util.wrscGPSlogger(gps), '132334807, 416887091, -88259850');
+
+    gps = {
+        'time': 1472923358080,
+        'latitude': 41.6910755,
+        'longitude': -8.8295565,
+        'altitude': 20.2,
+        'quality': 'fix',
+        'hdop': 4.91
+    };
+    t.equal(util.wrscGPSlogger(gps), '172238103, 416910755, -88295565');
+
+    gps.time = 1472923358180;
+    t.equal(util.wrscGPSlogger(gps), '172238203, 416910755, -88295565');
+
+    gps.time = 1472923358645;
+    t.equal(util.wrscGPSlogger(gps), '172238603, 416910755, -88295565');
 
     t.end();
 

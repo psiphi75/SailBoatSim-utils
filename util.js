@@ -293,10 +293,10 @@ var util = {
      */
     wrscGPSlogger: function(gps) {
         var d = new Date(gps.time);
-        var hh = util.zeroPad(d.getHours());
-        var mm = util.zeroPad(d.getMinutes());
-        var ss = util.zeroPad000(d.getSeconds() * 10 + util.round(d.getMilliseconds() / 100));
-        var dd = util.zeroPad(d.getDate());
+        var hh = util.zeroPad(d.getUTCHours());
+        var mm = util.zeroPad(d.getUTCMinutes());
+        var ss = util.zeroPad000(d.getUTCSeconds() * 10 + Math.round(d.getUTCMilliseconds() / 100));
+        var dd = util.zeroPad(d.getUTCDate());
 
         var lat = (gps.latitude * Math.pow(10, 7)).toFixed(0);
         var long = (gps.longitude * Math.pow(10, 7)).toFixed(0);
