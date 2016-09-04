@@ -22,13 +22,13 @@
  *********************************************************************/
 
 var test = require('tape');
-var StateManager = require('../contests/StateManager');
+var StateManager = require('../StateManager');
 
 test('Create State', function(t) {
 
     t.plan(7);
 
-    var sm = new StateManager();
+    var sm = new StateManager('tests');
     sm.get(function(err, state) {
         t.equal(state.length, 0, 'no state to begin with');
         testState(sm, t, []);
@@ -45,7 +45,7 @@ test('Create State', function(t) {
 
 test('Clear State', function(t) {
 
-    var sm = new StateManager();
+    var sm = new StateManager('tests');
 
     t.plan(6);
 

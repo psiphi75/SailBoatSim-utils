@@ -23,11 +23,18 @@
 
 'use strict';
 
-var STATE_FOLDER = __dirname + '/state';
 var fs = require('fs');
-var util = require('../util');
+var util = require('./util');
 
-function StateManager() {}
+function StateManager(name) {
+
+    this.stateFolder = __dirname + '/state/' + name;
+
+    if (!fs.existsSync(this.stateFolder)){
+        fs.mkdirSync(this.stateFolder);
+    }
+
+}
 
 StateManager.prototype.save = function(newStateList) {
     var self = this;
@@ -51,7 +58,7 @@ StateManager.prototype.save = function(newStateList) {
 
 
 StateManager.prototype.get = function(callback) {
-    fs.readdir(STATE_FOLDER, function(err, items) {
+    fs.readdir(this.stateFolder, function(err, items) {
         if (err) {
             console.error('StateManager.get(): ERROR: ', err);
             callback(err);
@@ -82,7 +89,7 @@ StateManager.prototype.clearAll = function() {
 
 StateManager.prototype.clearState = function(i) {
 
-    fs.unlink(getStateFilename(i), function(err) {
+    fs.unlink(this.getStateFilename(i), function(err) {
         if (err) {
             console.error('StateManager.clearState(): ERROR: ', err);
         }
@@ -93,7 +100,7 @@ StateManager.prototype.clearState = function(i) {
 StateManager.prototype.saveState = function(i) {
 
     // Save state
-    fs.appendFile(getStateFilename(i), '', function (err) {
+    fs.appendFile(this.getStateFilename(i), '', function (err) {
         if (err) {
             console.error('StateManager.save(): ERROR: ', err);
         }
@@ -101,10 +108,9 @@ StateManager.prototype.saveState = function(i) {
 
 };
 
-
-function getStateFilename(i) {
+StateManager.prototype.getStateFilename = function(i) {
     var filename = i.toString();
-    return STATE_FOLDER + '/' + filename;
-}
+    return this.stateFolder + '/' + filename;
+};
 
 module.exports = StateManager;

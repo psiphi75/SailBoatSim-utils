@@ -42,8 +42,8 @@ var wrc = require('web-remote-control');
 var fs = require('fs');
 var areaScan = require('./GenerateAreaScan');
 var util = require('../util');
-var StateManager = require('./StateManager');
-var state = new StateManager();
+var StateManager = require('../StateManager');
+var state = new StateManager('contest');
 
 /**
  * The ContestManager will load a contest from a request from the controller.
