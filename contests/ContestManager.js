@@ -34,8 +34,8 @@ var DEFAULT_CONTEST_REQUEST = {
     type: 'area-scanning',
     location: 'viana-do-castelo',
     realtime: true,
-    windSpeed: 0.8,
-    windHeading: 40
+    windSpeed: 4,
+    windHeading: 139.94111
 };
 
 var wrc = require('web-remote-control');

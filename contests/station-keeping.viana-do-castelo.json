@@ -1,8 +1,8 @@
 {
     "type": "station-keeping",
     "waypoints": [{
-        "latitude": 41.689590,
-        "longitude": -8.824242,
+        "latitude": 41.68846,
+        "longitude": -8.82469,
         "achieved": false,
         "type": "circle",
         "radius": 20
