@@ -28,7 +28,13 @@ var util = require('./util');
 
 function StateManager(name) {
 
-    this.stateFolder = __dirname + '/state/' + name;
+    var stateBaseFolder = __dirname + '/state/';
+
+    if (!fs.existsSync(stateBaseFolder)){
+        fs.mkdirSync(stateBaseFolder);
+    }
+
+    this.stateFolder = stateBaseFolder + name;
 
     if (!fs.existsSync(this.stateFolder)){
         fs.mkdirSync(this.stateFolder);
