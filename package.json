@@ -22,6 +22,6 @@
   "dependencies": {
     "geographiclib": "^1.46.0",
     "tape": "^4.6.0",
-    "web-remote-control": "^1.9.6"
+    "web-remote-control": "^1.9.8"
   }
 }
